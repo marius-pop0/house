@@ -87,6 +87,8 @@ def findMatch(dir,ip,port,flag):
         print("Could not find rule file")
         sys.exit(0)
 
+
+#python fw.py rules.txt < packets.txt
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         ruleFile = sys.argv[1]
