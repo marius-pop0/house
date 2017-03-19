@@ -15,6 +15,11 @@ if __name__ == '__main__':
         for line in file_object:
             print("line #" + str(line_count) + " : " + line)
             line_split=line.split()
+            dir=""
+            action=""
+            ip=""
+            port=-1
+            flag=""
 
             #does not contain flag
             if (len(line_split)==4):
