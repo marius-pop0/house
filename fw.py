@@ -51,18 +51,19 @@ if __name__ == '__main__':
 
             ip=line2_split[1]
             ip_split=ip.split(".")
-            if(len(ip_split)!=4):
-                print ("invalid IP adress in packet")
-                sys.exit(0)
-            else:
-                ip_1='{0:08b}'.format(int(ip_split[0]))
+            if(len(ip_split)==4):
+                ip_1 = '{0:08b}'.format(int(ip_split[0]))
                 ip_2 = '{0:08b}'.format(int(ip_split[1]))
                 ip_3 = '{0:08b}'.format(int(ip_split[2]))
                 ip_4 = '{0:08b}'.format(int(ip_split[3]))
 
-                ip=ip_1+ip_2+ip_3+ip_4
+                # ip in binary
+                ip = ip_1 + ip_2 + ip_3 + ip_4
+            else:
+                print("invalid IP address in packet")
+                sys.exit(0)
 
-            if(int(line2_split[2])>=1 or int(line2_split[2])<=65535):
+            if(int(line2_split[2])>=1 and int(line2_split[2])<=65535):
                 port=int(line2_split[2])
             else:
                 print("invalid port number in packet")
