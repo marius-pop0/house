@@ -89,7 +89,7 @@ def findMatch(dir,ip,port,flag):
                         if(dir==rule_dir):
                             if ((flag==1 and rule_flag=="established") or (flag==0 and rule_flag=="") or (flag==1 and rule_flag=="")):
                                 original_ip=bin_to_IP(ip)
-                                return (rule_action+" ("+str(line_count)+") "+dir+" "+original_ip+" "+str(port))
+                                return (rule_action+"("+str(line_count)+") "+dir+" "+original_ip+" "+str(port))
 
 
 
