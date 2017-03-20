@@ -3,10 +3,10 @@ import sys
 def bin_to_IP(ipBin):
     original_ip=""
     ip_1 = int(ipBin[:8],2)
-    ip_2 = int(ipBin[9:16],2)
-    ip_3 = int(ipBin[17:24],2)
-    ip_4 = int(ipBin[25:32],2)
-
+    ip_2 = int(ipBin[8:16],2)
+    ip_3 = int(ipBin[16:24],2)
+    ip_4 = int(ipBin[24:32],2)
+    #print(ipBin)
     original_ip=str(ip_1)+"."+str(ip_2)+"."+str(ip_3)+"."+str(ip_4)
     return original_ip
 
