@@ -1,5 +1,15 @@
 import sys
 
+def bin_to_IP(ipBin):
+    original_ip=""
+    ip_1 = int(ipBin[:8],2)
+    ip_2 = int(ipBin[9:16],2)
+    ip_3 = int(ipBin[17:24],2)
+    ip_4 = int(ipBin[25:32],2)
+
+    original_ip=str(ip_1)+"."+str(ip_2)+"."+str(ip_3)+"."+str(ip_4)
+    return original_ip
+
 def findMatch(dir,ip,port,flag):
     #############reading rules
     line_count = 1
@@ -72,17 +82,25 @@ def findMatch(dir,ip,port,flag):
                     print("invalid port number at rule "+line_count)
 
 
-            ##what to do when packet matches
-            ###add here###
-            ######
+            ##has some bugs!
+            if(rule_ip=="*" or (ip[:rule_subnet_size]==rule_ip[:rule_subnet_size])):
+                for ports in rule_ports:
+                    if(ports=="*" or (int(ports)==port)):
+                        if(dir==rule_dir):
+                            if ((flag==1 and rule_flag=="established") or (flag==0 and rule_flag=="")):
+                                original_ip=bin_to_IP(ip)
+                                return (rule_action+" ("+str(line_count)+") "+dir+" "+original_ip+" "+str(port))
 
-            print("Direction: " + rule_dir + " Action: " + rule_action + " IP: " + rule_ip + " Subnet Size: "+str(rule_subnet_size) + " Port: " +
-              str(rule_ports) + " Flag: " + rule_flag)
+
+
+            #print("Direction: " + rule_dir + " Action: " + rule_action + " IP: " + rule_ip + " Subnet Size: "+str(rule_subnet_size) + " Port: " +
+            #  str(rule_ports) + " Flag: " + rule_flag)
 
             line_count += 1
             ##############
-        file_object.close()
 
+        file_object.close()
+        return ("none")
     except FileNotFoundError:
         print("Could not find rule file")
         sys.exit(0)
@@ -136,9 +154,14 @@ if __name__ == '__main__':
                 print("Invalid packet flag")
                 sys.exit(0)
 
-            print("Direction: " + dir + " IP: " + ip + " Port: " + str(port) + " Flag: " +
-                  str(flag))
-            findMatch(dir,ip,port,flag)
+            #print("Direction: " + dir + " IP: " + ip + " Port: " + str(port) + " Flag: " +
+            #     str(flag))
+            result = findMatch(dir,ip,port,flag)
+            if (result=="none"):
+                original_ip=bin_to_IP(ip)
+                print("drop() "+dir+" "+original_ip+" "+str(port)+" "+str(flag))
+            else:
+                print(result)
 
         else:
             print("wrong line format on line in packet")
