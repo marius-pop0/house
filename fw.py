@@ -87,7 +87,7 @@ def findMatch(dir,ip,port,flag):
                 for ports in rule_ports:
                     if(ports=="*" or (int(ports)==port)):
                         if(dir==rule_dir):
-                            if ((flag==1 and rule_flag=="established") or (flag==0 and rule_flag=="")):
+                            if ((flag==1 and rule_flag=="established") or (flag==0 and rule_flag=="") or (flag==1 and rule_flag=="")):
                                 original_ip=bin_to_IP(ip)
                                 return (rule_action+" ("+str(line_count)+") "+dir+" "+original_ip+" "+str(port))
 
