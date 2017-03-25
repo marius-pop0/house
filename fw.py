@@ -34,26 +34,34 @@ def findMatch(dir,ip,port,flag):
                 if(line_split[4]=="established"):
                     rule_flag=line_split[4]
                 else:
-                    print("Invalid flag in rule "+line_count)
-                    sys.exit(0)
+                    #print("Invalid flag in rule "+ str(line_count))
+                    line_count += 1
+                    continue
+                    #sys.exit(0)
             # error on reading line (formatting)
             else:
-                print("wrong line format on line in rule " + line_count)
-                sys.exit(0)
+                #print("wrong line format on line in rule " + str(line_count))
+                line_count += 1
+                continue
+                #sys.exit(0)
 
             #get rule dir
             if (line_split[0] == "in" or line_split[0] == "out"):
                 rule_dir = line_split[0]
             else:
-                print("Invalid direction in rule "+line_count)
-                sys.exit(0)
+                #print("Invalid direction in rule "+str(line_count))
+                line_count += 1
+                continue
+                #sys.exit(0)
 
             #get rule action
             if (line_split[1] == "accept" or line_split[1] == "drop" or line_split[1] == "deny"):
                 rule_action = line_split[1]
             else:
-                print("Invalid action in rule "+line_count)
-                sys.exit(0)
+                #print("Invalid action in rule "+str(line_count))
+                line_count += 1
+                continue
+                #sys.exit(0)
 
             #get rule IP/subnet mask
             rule_ip = line_split[2]
@@ -68,7 +76,9 @@ def findMatch(dir,ip,port,flag):
                     #ip in binary
                     rule_ip = ip_1 + ip_2 + ip_3 + ip_4
                 else:
-                    print("invalid ip at rule "+line_count)
+                    #print("invalid ip at rule "+str(line_count))
+                    line_count += 1
+                    continue
                 rule_subnet_size=int(ip_subnet[1])
 
             #get rule port(s)
@@ -79,7 +89,10 @@ def findMatch(dir,ip,port,flag):
                 if (ports=="*"):
                     pass
                 elif (int(ports)< 0 or int(ports) > 65535):
-                    print("invalid port number at rule "+line_count)
+                    #print("invalid port number at rule "+str(line_count))
+                    line_count += 1
+                    continue
+
 
 
             ##has some bugs!
@@ -89,6 +102,7 @@ def findMatch(dir,ip,port,flag):
                         if(dir==rule_dir):
                             if ((flag==1 and rule_flag=="established") or (flag==0 and rule_flag=="") or (flag==1 and rule_flag=="")):
                                 original_ip=bin_to_IP(ip)
+                                file_object.close()
                                 return (rule_action+"("+str(line_count)+") "+dir+" "+original_ip+" "+str(port))
 
 
